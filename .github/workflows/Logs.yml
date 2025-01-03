@@ -14,19 +14,21 @@ jobs:
       - name: Generate Logs
         id: generate_logs
         run: |
-          # Generate logs and print them to stdout
-          echo "Starting the log generation...";
-          echo "Running on $(uname -a)";
-          echo "Current Date and Time: $(date)";
-          echo "Listing files in the current directory:";
-          ls -la;
-          echo "Log generation completed."
+          # Redirect both stdout and stderr to a log file
+          {
+            echo "Starting the log generation...";
+            echo "Running on $(uname -a)";
+            echo "Current Date and Time: $(date)";
+            echo "Listing files in the current directory:";
+            ls -la;
+            echo "Log generation completed.";
+          } &> generate_logs.txt
 
       - name: Capture Logs
         id: capture_logs
         run: |
-          # Capture logs and save them to a txt file
-          echo "${{ steps.generate_logs.outputs.stdout }}" > captured_logs.txt
+          # Capture the generated logs from the generate_logs.txt file
+          cat generate_logs.txt > captured_logs.txt
           echo "Captured logs are saved to captured_logs.txt"
 
       - name: Upload Captured Logs as Artifact
