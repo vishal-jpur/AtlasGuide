@@ -1,4 +1,4 @@
-name: Generate Logs Example
+name: Capture Logs Example
 
 on:
   push:
@@ -12,10 +12,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate Logs
+        id: generate_logs
         run: |
-          echo "Starting the log generation..."
-          echo "Running on $(uname -a)"
-          echo "Current Date and Time: $(date)"
-          echo "Listing files in the current directory:"
-          ls -la
+          # Generate logs and print them to stdout
+          echo "Starting the log generation...";
+          echo "Running on $(uname -a)";
+          echo "Current Date and Time: $(date)";
+          echo "Listing files in the current directory:";
+          ls -la;
           echo "Log generation completed."
+
+      - name: Capture Logs
+        id: capture_logs
+        run: |
+          # Capture the logs from the previous step and save them to a txt file
+          echo "${{ steps.generate_logs.outputs.stdout }}" > captured_logs.txt
+          # Store the log file as an artifact if necessary
+          echo "Captured logs are saved to captured_logs.txt"
+
+      - name: Display Captured Logs
+        run: |
+          # Display the captured logs from the txt file
+          cat captured_logs.txt
