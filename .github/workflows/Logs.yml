@@ -25,8 +25,15 @@ jobs:
       - name: Capture Logs
         id: capture_logs
         run: |
+          # Capture logs and save them to a txt file
           echo "${{ steps.generate_logs.outputs.stdout }}" > captured_logs.txt
           echo "Captured logs are saved to captured_logs.txt"
+
+      - name: Upload Captured Logs as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: captured-logs
+          path: captured_logs.txt
 
       - name: Display Captured Logs
         run: |
