@@ -25,12 +25,9 @@ jobs:
       - name: Capture Logs
         id: capture_logs
         run: |
-          # Capture the logs from the previous step and save them to a txt file
           echo "${{ steps.generate_logs.outputs.stdout }}" > captured_logs.txt
-          # Store the log file as an artifact if necessary
           echo "Captured logs are saved to captured_logs.txt"
 
       - name: Display Captured Logs
         run: |
-          # Display the captured logs from the txt file
           cat captured_logs.txt
