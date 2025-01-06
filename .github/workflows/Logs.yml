@@ -23,7 +23,7 @@ jobs:
       - name: capture summary
         id: captureTHE_logs
         run: |
-         echo "LOG_OUTPUT=${{ steps.loadtest.outputs.stdout }}" >> $GITHUB_ENV
+         echo "LOG_OUTPUT=$(cat $GITHUB_WORKSPACE/logs/output.log)" >> $GITHUB_ENV
 
       - name: Print Log
         run: echo "${{env.LOG_OUTPUT}}"
