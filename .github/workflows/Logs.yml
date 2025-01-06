@@ -11,6 +11,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Run azure load test
+        id: loadtest
+        uses: azure/load-testing@v1
+        with: 
+          loadTestConfigFile: config.yml
+          loadTestResource: test
+          resourceGroup: Testing
+        continue-on-error: true
+
+      - name: capture summary
+        id: captureTHE_logs
+        run: |
+         echo "LOG_OUTPUT=${{ steps.loadtest.outputs.stdout }}" >> $GITHUB_ENV
+
+      - name: Print Log
+        run: echo "${{env.LOG_OUTPUT}}"
+
+
       - name: Generate Logs
         id: generate_logs
         run: |
