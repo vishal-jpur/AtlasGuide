@@ -20,14 +20,10 @@ jobs:
           resourceGroup: Testing
         continue-on-error: true
 
-      - name: capture summary
-        id: captureTHE_logs
-        run: |
-         echo "LOG_OUTPUT=$(cat $GITHUB_WORKSPACE/logs/output.log)" >> $GITHUB_ENV
-
-      - name: Print Log
-        run: echo "${{env.LOG_OUTPUT}}"
-
+      - name: capture and print summary
+        run : | 
+            echo "${{steps.loadtest.outputs.stdout}}"
+            echo "${{steps.loadtest.outputs.stderr}}"
 
       - name: Generate Logs
         id: generate_logs
