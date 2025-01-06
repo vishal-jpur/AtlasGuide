@@ -22,8 +22,11 @@ jobs:
 
       - name: capture and print summary
         run : | 
-            echo "${{steps.loadtest.outputs.stdout}}"
-            echo "${{steps.loadtest.outputs.stderr}}"
+            steps.loadtest.outputs.stdout | tee -a $GITHUB_ENV
+            echo "LOG_OUTPUT=$(cat $GITHUB_ENV)" >> $GITHUB_ENV
+
+      - name: Print log output
+        run: echo "${{env.LOG_OUTPUT}}"
 
       - name: Generate Logs
         id: generate_logs
